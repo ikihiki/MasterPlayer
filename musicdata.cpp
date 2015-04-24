@@ -16,7 +16,7 @@ MusicData::MusicData(const QUrl &path,QObject *parent):QObject(parent)
     setVolume(50);
     for(const QFileInfo part : dir.entryInfoList(QDir::Dirs|QDir::NoDotAndDotDot))
     {
-        m_parts<<QVariant::fromValue(static_cast<QObject *>(new PartData(part.absoluteFilePath(),this)));
+        m_parts<<new PartData(part.absoluteFilePath(),this);
     }
 
 
@@ -76,7 +76,7 @@ void MusicData::setVolume(const double volume)
     }
 }
 
-QVariantList MusicData::Parts() const
+QQmlListProperty<PartData> MusicData::Parts() const
 {
     return m_parts;
 }

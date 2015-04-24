@@ -5,6 +5,7 @@
 #include <QDir>
 #include <QUrl>
 #include <QVariant>
+#include<QQmlListProperty>
 
 #include "metadata.h"
 #include"partdata.h"
@@ -13,31 +14,30 @@ class MusicData : public QObject
 {
     Q_OBJECT
 
-    Q_PROPERTY(QUrl Path READ Path WRITE setPath NOTIFY PathChanged)
-    Q_PROPERTY(QString Name READ Name WRITE setName NOTIFY NameChanged)
-    Q_PROPERTY(QUrl Instrumental READ Instrumental WRITE setInstrumental NOTIFY InstrumentalChanged)
-    Q_PROPERTY(double Volume READ Volume WRITE setVolume NOTIFY VolumeChanged)
-    Q_PROPERTY(QVariantList Parts READ Parts WRITE setParts NOTIFY PartsChanged)
+    Q_PROPERTY(QUrl path READ path WRITE setPath NOTIFY pathChanged)
+    Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
+    Q_PROPERTY(QUrl instrumental READ instrumental WRITE setInstrumental NOTIFY instrumentalChanged)
+    Q_PROPERTY(double gain READ gain WRITE setGain NOTIFY gainChanged)
+	Q_PROPERTY(QQmlListProperty<PartData> Parts READ Parts)
     Q_PROPERTY(QVariant MetaData READ metaData WRITE setMetaData NOTIFY MetaDataChanged)
 
 public:
     explicit MusicData(QObject *parent = 0);
     explicit MusicData(const QUrl &path, QObject *parent=0);
 
-    QUrl Path() const;
+    QUrl path() const;
     void setPath(const QUrl &path);
 
-    QString Name() const;
+    QString name() const;
     void setName(const QString &name);
 
-    QUrl Instrumental() const;
+    QUrl instrumental() const;
     void setInstrumental(const QUrl &inst);
 
-    double Volume() const;
-    void setVolume(const double volume);
+    double gain() const;
+    void setGain(const double volume);
 
-    QVariantList Parts() const;
-    void setParts(const QVariantList &parts);
+	QQmlListProperty<PartData> Parts() const;
 
     QVariant metaData() const;
     void setMetaData(const QVariant &metadata);
@@ -51,7 +51,6 @@ signals:
     void NameChanged();
     void InstrumentalChanged();
     void VolumeChanged();
-    void PartsChanged();
     void MetaDataChanged();
     void speakerChanged();
 public slots:
@@ -61,7 +60,7 @@ private:
     QString m_name;
     QUrl m_instrumental;
     double m_volume;
-    QVariantList m_parts;
+    Qlist<PartData*> m_parts;
     QVariant m_metadata;
  };
 #endif // MUSICDATA_H

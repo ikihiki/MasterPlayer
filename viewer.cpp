@@ -2,13 +2,13 @@
 
 Viewer::Viewer(QObject *parent) : QObject(parent)
 {
-    qmlRegisterType<Speaker>("AudioSystem", 1, 0, "Speaker");
+    qmlRegisterType<PartData>("MasterPlayerHelper", 1, 0, "PartData");
     m_engine = new QQmlApplicationEngine(this);
 }
 
 Viewer::Viewer(const QUrl &music, const QUrl &skin, QObject *parent):QObject(parent)
 {
-    qmlRegisterType<Speaker>("AudioSystem", 1, 0, "Speaker");
+    qmlRegisterType<PartData>("MasterPlayerHelper", 1, 0, "PartData");
     m_engine = new QQmlApplicationEngine(this);
     setMusicFolder(music);
     setSkinFolder(skin);
