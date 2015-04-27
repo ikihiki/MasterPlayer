@@ -5,18 +5,24 @@
 
 class Instrumental : public QObject
 {
-      Q_OBJECT
-      Q_PROPERTY(float gain READ gain WRITE setGain NOTIFY gainChanged) 
-     	Q_PROPERTY(float x READ x WRITE setX NOTIFY xChanged) 
-      Q_PROPERTY(float y READ y WRITE setY NOTIFY yChanged) 
-      Q_PROPERTY(float z READ z WRITE setZ NOTIFY zChanged) 
-      Q_PROPERTY(bool isMute READ isMute WRITE setIsMute NOTIFY isMuteChanged) 
+    Q_OBJECT
+
+    Q_PROPERTY(QUrl instrumental READ instrumental WRITE setInstrumental NOTIFY instrumentalChanged)
+    Q_PROPERTY(float gain READ gain WRITE setGain NOTIFY gainChanged)
+    Q_PROPERTY(float x READ x WRITE setX NOTIFY xChanged)
+    Q_PROPERTY(float y READ y WRITE setY NOTIFY yChanged)
+    Q_PROPERTY(float z READ z WRITE setZ NOTIFY zChanged)
+    Q_PROPERTY(bool isMute READ isMute WRITE setIsMute NOTIFY isMuteChanged)
 
 public:
       explicit Instrumental(QObject *parent = 0);
       explicit Instrumental(const QString &path,QObject *parent = 0);
       
-      float gain() const;
+
+    QUrl instrumental() const;
+    void setInstrumental(const QUrl &inst);
+
+    float gain() const;
 	void setGain(const float gain);
 
 	float x() const;
@@ -31,9 +37,15 @@ public:
 	bool isMute() const;
 	void setIsMute(const bool ismute);
 
-~Instruments();
+~Instrumental();
 
-si
+signals:
+    void gainChanged();
+    void xChanged();
+    void yChanged();
+    void zChanged();
+    void isMuteChanged();
+
 
 }
 #endif //INSTRUMENTAL_H

@@ -28,7 +28,8 @@ HEADERS += \
     viewer.h \
     metadata.h \
     audio3d.h \
-    speaker.h
+    speaker.h \
+    instrumental.h
 
 QMAKE_CXXFLAGS += -std=gnu++0x
 

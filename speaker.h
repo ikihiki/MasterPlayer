@@ -10,7 +10,6 @@
 #include <QUrl>
 #include <al.h>
 #include <alc.h>
-#include <lame/lame.h>
 
 
 
