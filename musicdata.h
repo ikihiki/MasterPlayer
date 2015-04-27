@@ -18,8 +18,9 @@ class MusicData : public QObject
     Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
     Q_PROPERTY(QUrl instrumental READ instrumental WRITE setInstrumental NOTIFY instrumentalChanged)
     Q_PROPERTY(double gain READ gain WRITE setGain NOTIFY gainChanged)
-	Q_PROPERTY(QQmlListProperty<PartData> Parts READ Parts)
+    Q_PROPERTY(QQmlListProperty<PartData> Parts READ Parts)
     Q_PROPERTY(QVariant MetaData READ metaData WRITE setMetaData NOTIFY MetaDataChanged)
+    Q_PROPERTY(qint64 position READ position WRITE setPosition NOTIFY positionchanged)
 
 public:
     explicit MusicData(QObject *parent = 0);
