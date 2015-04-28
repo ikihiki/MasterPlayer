@@ -19,7 +19,7 @@ class MusicData : public QObject
     Q_PROPERTY(QUrl instrumental READ instrumental WRITE setInstrumental NOTIFY instrumentalChanged)
     Q_PROPERTY(double gain READ gain WRITE setGain NOTIFY gainChanged)
     Q_PROPERTY(QQmlListProperty<PartData> Parts READ Parts)
-    Q_PROPERTY(QVariant MetaData READ metaData WRITE setMetaData NOTIFY MetaDataChanged)
+    Q_PROPERTY(QVariant metaData READ metaData)
     Q_PROPERTY(qint64 position READ position WRITE setPosition NOTIFY positionchanged)
 
 public:
@@ -35,25 +35,44 @@ public:
     QUrl instrumental() const;
     void setInstrumental(const QUrl &inst);
 
-    double gain() const;
-    void setGain(const double volume);
-
 	QQmlListProperty<PartData> Parts() const;
 
     QVariant metaData() const;
-    void setMetaData(const QVariant &metadata);
+
+    qint64 duration() const;
+    void setDuration(const quint64 duration);
+
+    qint64 loadedPosition() const;
+    void setLoadedPosition(const qint64 position);
+
+    qint64 position() const;
+    void setPosition(const qint64 position);
+
+    bool isLoadFinished() const;
+    void setIsLoadFinished(const bool isfinishied);
+
+    bool isMute() const;
+    void setIsMute(const bool ismute);
+
+    float gain() const;
+    void setGain(const float gain);
+
+    bool isPlaying() const;
+    void setIsPlaying(const bool isplaying);
+
 
     Q_INVOKABLE void selectMusic() const;
     ~MusicData();
 
 signals:
 
-    void PathChanged();
-    void NameChanged();
-    void InstrumentalChanged();
-    void VolumeChanged();
-    void MetaDataChanged();
+    void pathChanged();
+    void nameChanged();
+    void instrumentalChanged();
+    void gainChanged();
+    void metaDataChanged();
     void speakerChanged();
+    void positionchanged();
 public slots:
 
 private:
@@ -61,7 +80,7 @@ private:
     QString m_name;
     QUrl m_instrumental;
     double m_volume;
-    Qlist<PartData*> m_parts;
+    QList<PartData*> m_parts;
     QVariant m_metadata;
  };
 #endif // MUSICDATA_H

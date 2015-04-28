@@ -13,7 +13,6 @@ MusicData::MusicData(const QUrl &path,QObject *parent):QObject(parent)
     QStringList instList;
     instList<<"*.mp3";
     setInstrumental(QUrl::fromLocalFile(dir.entryInfoList(instList,QDir::Files).first().filePath()));
-    setVolume(50);
     for(const QFileInfo part : dir.entryInfoList(QDir::Dirs|QDir::NoDotAndDotDot))
     {
         m_parts<<new PartData(part.absoluteFilePath(),this);
@@ -22,7 +21,7 @@ MusicData::MusicData(const QUrl &path,QObject *parent):QObject(parent)
 
 }
 
-QUrl MusicData::Path() const
+QUrl MusicData::path() const
 {
     return m_path;
 }
@@ -31,11 +30,11 @@ void MusicData::setPath(const QUrl &path)
     if(path!=m_path)
     {
         m_path=path;
-        emit PathChanged();
+        emit pathChanged();
     }
 }
 
-QString MusicData::Name() const
+QString MusicData::name() const
 {
     return m_name;
 }
@@ -44,11 +43,11 @@ void MusicData::setName(const QString &name)
     if(m_name!=name)
     {
         m_name=name;
-        emit NameChanged();
+        emit nameChanged();
     }
 }
 
-QUrl MusicData::Instrumental() const
+QUrl MusicData::instrumental() const
 {
     return m_instrumental;
 }
@@ -57,36 +56,16 @@ void MusicData::setInstrumental(const QUrl &inst)
     if(inst!=m_instrumental)
     {
         m_instrumental=inst;
-        emit InstrumentalChanged();
+        emit instrumentalChanged();
         setMetaData(QVariant::fromValue(static_cast<QObject *>(new MetaData(inst,this))));
     }
 }
 
 
-double MusicData::Volume() const
-{
-    return m_volume;
-}
-void MusicData::setVolume(const double volume)
-{
-    if(volume!=m_volume)
-    {
-        m_volume=volume;
-        emit VolumeChanged();
-    }
-}
 
 QQmlListProperty<PartData> MusicData::Parts() const
 {
-    return m_parts;
-}
-void MusicData::setParts(const QVariantList &parts)
-{
-    if(parts!=m_parts)
-    {
-        m_parts=parts;
-        emit PartsChanged();
-    }
+    return (QQmlListProperty<PartData>)QQmlListProperty<PartData>((QObject*)this,(QList<PartData*>)m_parts);
 }
 
 QVariant MusicData::metaData() const
@@ -94,14 +73,6 @@ QVariant MusicData::metaData() const
     return m_metadata;
 }
 
-void MusicData::setMetaData(const QVariant &metadata)
-{
-    if(metadata!=m_metadata)
-    {
-        m_metadata=metadata;
-        emit MetaDataChanged();
-    }
-}
 
 void MusicData::selectMusic() const
 {

@@ -4,6 +4,7 @@
 #include <QObject>
 #include<QDir>
 #include<QUrl>
+#include"speaker.h"
 
 class PartData : public QObject
 {

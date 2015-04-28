@@ -10,7 +10,8 @@ SOURCES += main.cpp \
     viewer.cpp \
     metadata.cpp \
     audio3d.cpp \
-    speaker.cpp
+    speaker.cpp \
+    instrumental.cpp
 
 RESOURCES += qml.qrc
 

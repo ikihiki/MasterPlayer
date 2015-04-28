@@ -2,6 +2,7 @@
 #define INSTRUMENTAL_H
 
 #include <QObject>
+#include <QUrl>
 
 class Instrumental : public QObject
 {
@@ -40,6 +41,7 @@ public:
 ~Instrumental();
 
 signals:
+    void instrumentalChanged();
     void gainChanged();
     void xChanged();
     void yChanged();
@@ -47,5 +49,5 @@ signals:
     void isMuteChanged();
 
 
-}
+};
 #endif //INSTRUMENTAL_H

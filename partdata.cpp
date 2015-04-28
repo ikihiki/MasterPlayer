@@ -83,7 +83,7 @@ float PartData::gain() const
     return speaker->gain();
 }
 
-void PartData::setGain(const double volume)
+void PartData::setGain(const float volume)
 {
     if(volume!=speaker->gain())
     {
@@ -141,8 +141,6 @@ PartData::~PartData()
     m_name=QString::null;
     m_offImage=QString::null;
     m_onImsge=QString::null;
-    m_vocal=QString::null;
-    m_volume=NULL;
     delete m_dir;
 }
 
