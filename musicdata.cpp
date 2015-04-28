@@ -12,7 +12,7 @@ MusicData::MusicData(const QUrl &path,QObject *parent):QObject(parent)
     setName(dir.dirName());
     QStringList instList;
     instList<<"*.mp3";
-    setInstrumental(QUrl::fromLocalFile(dir.entryInfoList(instList,QDir::Files).first().filePath()));
+ //   setInstrumental(QUrl::fromLocalFile(dir.entryInfoList(instList,QDir::Files).first().filePath()));
     for(const QFileInfo part : dir.entryInfoList(QDir::Dirs|QDir::NoDotAndDotDot))
     {
         m_parts<<new PartData(part.absoluteFilePath(),this);
@@ -47,18 +47,9 @@ void MusicData::setName(const QString &name)
     }
 }
 
-QUrl MusicData::instrumental() const
+Instrumental* MusicData::instrumental() const
 {
     return m_instrumental;
-}
-void MusicData::setInstrumental(const QUrl &inst)
-{
-    if(inst!=m_instrumental)
-    {
-        m_instrumental=inst;
-        emit instrumentalChanged();
-        setMetaData(QVariant::fromValue(static_cast<QObject *>(new MetaData(inst,this))));
-    }
 }
 
 
@@ -72,6 +63,52 @@ QVariant MusicData::metaData() const
 {
     return m_metadata;
 }
+
+
+qint64 MusicData::duration() const
+{
+
+}
+
+qint64 MusicData::loadedPosition() const
+{
+
+}
+
+qint64 MusicData::position() const
+{
+
+}
+void MusicData::setPosition(const qint64 position)
+{
+
+}
+
+bool MusicData::isLoadFinished() const
+{
+
+}
+
+bool MusicData::isMute() const
+{
+
+}
+void MusicData::setIsMute(const bool ismute)
+{
+
+}
+
+
+bool MusicData::isPlaying() const
+{
+
+}
+void MusicData::setIsPlaying(const bool isplaying)
+{
+
+}
+
+
 
 
 void MusicData::selectMusic() const

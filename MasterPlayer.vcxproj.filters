@@ -36,12 +36,12 @@
       <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
     <Filter Include="Generated Files\Debug">
-      <UniqueIdentifier>{b6ce30cd-8921-4aa8-812c-0ca14a2c408f}</UniqueIdentifier>
+      <UniqueIdentifier>{51aa9666-14ea-4d79-a43d-5380ad7a6122}</UniqueIdentifier>
       <Extensions>cpp;moc</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
     <Filter Include="Generated Files\Release">
-      <UniqueIdentifier>{61f43ff3-6092-477a-b0ba-7ca8e2276925}</UniqueIdentifier>
+      <UniqueIdentifier>{018ff6f0-903f-4efb-bce5-4f0b5de83bfe}</UniqueIdentifier>
       <Extensions>cpp;moc</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
@@ -51,6 +51,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="instrumental.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="listener.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
@@ -87,6 +90,12 @@
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
     <ClCompile Include="Release\moc_instrumental.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Debug\moc_listener.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Release\moc_listener.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="Debug\moc_metadata.cpp">
@@ -140,6 +149,9 @@
       <Filter>Header Files</Filter>
     </CustomBuild>
     <CustomBuild Include="instrumental.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="listener.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
     <CustomBuild Include="metadata.h">

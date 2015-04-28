@@ -11,7 +11,8 @@ SOURCES += main.cpp \
     metadata.cpp \
     audio3d.cpp \
     speaker.cpp \
-    instrumental.cpp
+    instrumental.cpp \
+    listener.cpp
 
 RESOURCES += qml.qrc
 
@@ -30,7 +31,8 @@ HEADERS += \
     metadata.h \
     audio3d.h \
     speaker.h \
-    instrumental.h
+    instrumental.h \
+    listener.h
 
 QMAKE_CXXFLAGS += -std=gnu++0x
 

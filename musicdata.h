@@ -5,10 +5,12 @@
 #include <QDir>
 #include <QUrl>
 #include <QVariant>
-#include<QQmlListProperty>
+#include <QQmlListProperty>
 
 #include "metadata.h"
-#include"partdata.h"
+#include "partdata.h"
+#include "instrumental.h"
+#include "speaker.h"
 
 class MusicData : public QObject
 {
@@ -16,7 +18,7 @@ class MusicData : public QObject
 
     Q_PROPERTY(QUrl path READ path WRITE setPath NOTIFY pathChanged)
     Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
-    Q_PROPERTY(QUrl instrumental READ instrumental WRITE setInstrumental NOTIFY instrumentalChanged)
+    Q_PROPERTY(Instrumental* instrumental READ instrumental)
     Q_PROPERTY(double gain READ gain WRITE setGain NOTIFY gainChanged)
     Q_PROPERTY(QQmlListProperty<PartData> Parts READ Parts)
     Q_PROPERTY(QVariant metaData READ metaData)
@@ -32,8 +34,7 @@ public:
     QString name() const;
     void setName(const QString &name);
 
-    QUrl instrumental() const;
-    void setInstrumental(const QUrl &inst);
+	Instrumental* instrumental() const;
 
 	QQmlListProperty<PartData> Parts() const;
 
@@ -53,9 +54,6 @@ public:
 
     bool isMute() const;
     void setIsMute(const bool ismute);
-
-    float gain() const;
-    void setGain(const float gain);
 
     bool isPlaying() const;
     void setIsPlaying(const bool isplaying);
@@ -78,7 +76,7 @@ public slots:
 private:
     QUrl m_path;
     QString m_name;
-    QUrl m_instrumental;
+    Instrumental* m_instrumental;
     double m_volume;
     QList<PartData*> m_parts;
     QVariant m_metadata;

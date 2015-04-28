@@ -143,6 +143,9 @@
     <ClCompile Include="Debug\moc_instrumental.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="Debug\moc_listener.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Debug\moc_metadata.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
@@ -171,6 +174,7 @@
       </PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="instrumental.cpp" />
+    <ClCompile Include="listener.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="metadata.cpp" />
     <ClCompile Include="musicdata.cpp" />
@@ -180,6 +184,9 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Release\moc_instrumental.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Release\moc_listener.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Release\moc_metadata.cpp">
@@ -243,6 +250,26 @@ if errorlevel 1 goto VCEnd
 endlocal
 "$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_QUICK_LIB -DQT_WIDGETS_LIB -DQT_MULTIMEDIA_LIB -DQT_GUI_LIB -DQT_QML_LIB -DQT_NETWORK_LIB -DQT_CONCURRENT_LIB -DQT_CORE_LIB "-I." "-I.\openal\include" "-I.\taglib" "-I.\..\..\qt\5.4\msvc2013\include" "-I.\..\..\qt\5.4\msvc2013\include\QtQuick" "-I.\..\..\qt\5.4\msvc2013\include\QtWidgets" "-I.\..\..\qt\5.4\msvc2013\include\QtMultimedia" "-I.\..\..\qt\5.4\msvc2013\include\QtGui" "-I.\..\..\qt\5.4\msvc2013\include\QtANGLE" "-I.\..\..\qt\5.4\msvc2013\include\QtQml" "-I.\..\..\qt\5.4\msvc2013\include\QtNetwork" "-I.\..\..\qt\5.4\msvc2013\include\QtConcurrent" "-I.\..\..\qt\5.4\msvc2013\include\QtCore" "-I.\debug" "-I.\..\..\qt\5.4\msvc2013\mkspecs\win32-msvc2013"</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing instrumental.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+    </CustomBuild>
+    <CustomBuild Include="listener.h">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">setlocal
+if errorlevel 1 goto VCEnd
+
+if errorlevel 1 goto VCEnd
+endlocal
+"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_QUICK_LIB -DQT_WIDGETS_LIB -DQT_MULTIMEDIA_LIB -DQT_GUI_LIB -DQT_QML_LIB -DQT_NETWORK_LIB -DQT_CONCURRENT_LIB -DQT_CORE_LIB -DNDEBUG "-I." "-I.\openal\include" "-I.\taglib" "-I.\..\..\qt\5.4\msvc2013\include" "-I.\..\..\qt\5.4\msvc2013\include\QtQuick" "-I.\..\..\qt\5.4\msvc2013\include\QtWidgets" "-I.\..\..\qt\5.4\msvc2013\include\QtMultimedia" "-I.\..\..\qt\5.4\msvc2013\include\QtGui" "-I.\..\..\qt\5.4\msvc2013\include\QtANGLE" "-I.\..\..\qt\5.4\msvc2013\include\QtQml" "-I.\..\..\qt\5.4\msvc2013\include\QtNetwork" "-I.\..\..\qt\5.4\msvc2013\include\QtConcurrent" "-I.\..\..\qt\5.4\msvc2013\include\QtCore" "-I.\release" "-I.\..\..\qt\5.4\msvc2013\mkspecs\win32-msvc2013"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing listener.h...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">setlocal
+if errorlevel 1 goto VCEnd
+
+if errorlevel 1 goto VCEnd
+endlocal
+"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_QUICK_LIB -DQT_WIDGETS_LIB -DQT_MULTIMEDIA_LIB -DQT_GUI_LIB -DQT_QML_LIB -DQT_NETWORK_LIB -DQT_CONCURRENT_LIB -DQT_CORE_LIB "-I." "-I.\openal\include" "-I.\taglib" "-I.\..\..\qt\5.4\msvc2013\include" "-I.\..\..\qt\5.4\msvc2013\include\QtQuick" "-I.\..\..\qt\5.4\msvc2013\include\QtWidgets" "-I.\..\..\qt\5.4\msvc2013\include\QtMultimedia" "-I.\..\..\qt\5.4\msvc2013\include\QtGui" "-I.\..\..\qt\5.4\msvc2013\include\QtANGLE" "-I.\..\..\qt\5.4\msvc2013\include\QtQml" "-I.\..\..\qt\5.4\msvc2013\include\QtNetwork" "-I.\..\..\qt\5.4\msvc2013\include\QtConcurrent" "-I.\..\..\qt\5.4\msvc2013\include\QtCore" "-I.\debug" "-I.\..\..\qt\5.4\msvc2013\mkspecs\win32-msvc2013"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing listener.h...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
