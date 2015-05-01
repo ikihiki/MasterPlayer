@@ -8,14 +8,8 @@ Speaker::Speaker(QObject *parent) : QObject(parent)
     connect(m_decoder,SIGNAL(stateChanged(QAudioDecoder::State)),this,SLOT(getStateChanged(QAudioDecoder::State)));
     connect(m_decoder,SIGNAL(positionChanged(qint64)),this,SLOT(getPositionChanged(qint64)));
     connect(m_decoder,SIGNAL(finished()),this,SLOT(getFinished()));
-    m_timer = new QTimer(this);
-    connect(m_timer,SIGNAL(timeout()),this,SLOT(loop()));
 }
 
-Speaker::Speaker(Speaker &obj)
-{
-
-}
 
 QUrl Speaker::source() const
 {
@@ -41,8 +35,6 @@ bool Speaker::isReady() const
     return m_isReady;
 }
 
-void Speaker::setIsReady(const bool ready)
-{}
 
 void Speaker::setisReady(const bool ready)
 {
@@ -55,21 +47,26 @@ void Speaker::setisReady(const bool ready)
 
 Speaker::State Speaker::state() const
 {
-    return m_state;
+	ALint state;
+	alGetSourcei(m_source, AL_SOURCE_STATE, &state);
+
+	switch (state)
+	{
+	case AL_INITIAL:
+		return State::stopped;
+
+	case AL_PLAYING:
+		return State::playing;
+
+	case AL_PAUSED:
+		return State::paused;
+
+	case AL_STOPPED:
+		State::stopped;
+	}
+
 }
 
-void Speaker::setState(const State state)
-{}
-
-void Speaker::setstate(const State state)
-{
-    if(state!=m_state)
-    {
-        m_state=state;
-        emit stateChanged();
-        emit isPlayingChanged();
-    }
-}
 
 float Speaker::x() const
 {
@@ -125,28 +122,28 @@ void Speaker::setZ(const float z)
     }
 }
 
-qint64 Speaker::duration() const
+float Speaker::duration() const
 {
-    return m_decoder->duration();
+    return m_decoder->duration()/1000.0f;
 }
 
-void Speaker::setDuration(const quint64 duration){}
 
-qint64 Speaker::loadedPosition() const
+float Speaker::loadedPosition() const
 {
-    return m_loadedPosition;
+    return m_decoder->position()/1000.0f;
 }
 
-void Speaker::setLoadedPosition(const qint64 position){}
-
-qint64 Speaker::position() const
+float Speaker::position() const
 {
-    return m_position;
+    float tmp = 0;
+    alGetSourcef(m_source,AL_SEC_OFFSET,&tmp);
+    return tmp;
+
 }
 
-void Speaker::setPosition(const qint64 position)
+void Speaker::setPosition(const float position)
 {
-    if(position>0&&position!=m_position)
+    if(position>0)
     {
         if(position>duration())
         {
@@ -154,14 +151,9 @@ void Speaker::setPosition(const qint64 position)
         }
         if(position>loadedPosition())
         {
-            setstate(State::buffering);
-            m_position=position;
             return;
         }
-        alSourcef(m_source,AL_SEC_OFFSET,position/1000.0f);
-        float tmp;
-        alGetSourcef(m_source,AL_SEC_OFFSET,&tmp);
-        m_position=tmp*1000;
+        alSourcef(m_source,AL_SEC_OFFSET,position);
         emit positionChanged();
     }
 }
@@ -170,7 +162,6 @@ bool Speaker::isLoadFinished() const
 {
     return m_isLoaded;
 }
-void Speaker::setIsLoadFinished(const bool isfinishied){}
 
 bool Speaker::isMute() const
 {
@@ -233,144 +224,22 @@ void Speaker::setIsPlaying(const bool isplaying)
 void Speaker::play()
 {
     load();
-    setstate(State::playing);
-    m_timer->start(100);
+	alSourcePlay(m_source);
 
 }
 
 void Speaker::pause()
 {
-    setstate(State::paused);
+	alSourcePause(m_source);
 }
 
 void Speaker::stop()
 {
-    setstate(State::stopped);
-}
-
-void Speaker::loop()
-{
-        ALint state;
-        alGetSourcei(m_source,AL_SOURCE_STATE,&state);
-
-        switch(m_state)
-        {
-        case State::loading:
-            switch(state)
-            {
-            case AL_INITIAL:
-                break;
-
-            case AL_PLAYING:
-                alSourceStop(m_source);
-                break;
-
-            case AL_PAUSED:
-                break;
-
-            case AL_STOPPED:
-                break;
-            }
-            break;
-
-        case State::playing:
-            switch(state)
-            {
-            case AL_INITIAL:
-                alSourcePlay(m_source);
-                break;
-
-            case AL_PLAYING:
-                break;
-
-            case AL_PAUSED:
-                alSourcePlay(m_source);
-                break;
-
-            case AL_STOPPED:
-                alSourcePlay(m_source);
-                break;
-            }
-            float tmp;
-            alGetSourcef(m_source,AL_SEC_OFFSET,&tmp);
-            m_position=tmp*1000;
-            emit positionChanged();
-
-            break;
-
-        case State::buffering:
-            switch(state)
-            {
-            case AL_INITIAL:
-                break;
-
-            case AL_PLAYING:
-                alSourceStop(m_source);
-                break;
-
-            case AL_PAUSED:
-                break;
-
-            case AL_STOPPED:
-                break;
-            }
-
-            if(loadedPosition()>position())
-            {
-                alSourcef(m_source,AL_SEC_OFFSET,m_position/1000.0f);
-                float tmp;
-                alGetSourcef(m_source,AL_SEC_OFFSET,&tmp);
-                m_position=tmp*1000;
-                emit positionChanged();
-                setstate(State::playing);
-            }
-
-            break;
-
-        case State::paused:
-            switch(state)
-            {
-            case AL_INITIAL:
-                setstate(State::stopped);
-                break;
-
-            case AL_PLAYING:
-                alSourcePause(m_source);
-                break;
-
-            case AL_PAUSED:
-                break;
-
-            case AL_STOPPED:
-                setstate(State::stopped);
-                break;
-            }
-            break;
-
-        case State::stopped:
-            switch(state)
-            {
-            case AL_INITIAL:
-                break;
-
-            case AL_PLAYING:
-                alSourceStop(m_source);
-                break;
-
-            case AL_PAUSED:
-                alSourceStop(m_source);
-                break;
-
-            case AL_STOPPED:
-                break;
-            }
-            break;
-        }
+	alSourceStop(m_source);
 }
 
 void Speaker::load()
 {
-    setstate(State::loading);
     if(!m_isReady)
     {
         if( alcGetCurrentContext()==NULL)
@@ -385,7 +254,6 @@ void Speaker::load()
         alSource3f(m_source,AL_POSITION,m_x,m_y,m_z);
         m_decoder->start();
         setisReady(true);
-        emit durationChanged();
     }
 }
 
@@ -393,6 +261,10 @@ void Speaker::unload()
 {
     if(m_isReady)
     {
+		alDeleteSources(1, &m_source);
+		alDeleteBuffers(m_alBuffer.size(), &m_alBuffer[0]);
+		m_source = 0;
+		m_alBuffer.clear();
         setisReady(false);
     }
 }
@@ -479,11 +351,6 @@ void Speaker::getFinished()
 
 Speaker::~Speaker()
 {
-    alDeleteSources(1,&m_source);
-    alDeleteBuffers(m_alBuffer.size(),&m_alBuffer[0]);
-    ALenum error;
-    if ((error = alGetError()) == AL_NO_ERROR) {
-      qDebug()<<error;
-    }
+	unload();
 }
 

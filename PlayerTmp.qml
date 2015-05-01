@@ -1,54 +1,33 @@
 import QtQuick 2.0
 import QtMultimedia 5.0
-import AudioSystem 1.0
 import QtQuick.Controls 1.2
 
 Rectangle {
     id: rectangle1
-    width: 100
-    height: 62
-
-    signal play()
-
-    Speaker
-    {
-        id:inst
-        source: Data.SelectedMusic.Instrumental
-        position: sliderHorizontal1.value
-        onPositionChanged:
-        {
-            sliderHorizontal1.minimumValue=0;
-            sliderHorizontal1.value=inst.position
-        }
-    }
+    width: 500
+    height: 502
 
     ListView
     {
         id:list
         anchors.fill:parent
-        model: Data.SelectedMusic.Parts
+        model: Data.SelectedMusic.parts
         delegate: Item {
                 width: 200
                 height: 200
-                property bool playing: false
                 MouseArea
                 {
                     anchors.fill: parent
                     onClicked:
                     {
-                        if(playing)
+                        if(!modelData.isMute)
                         {
-                            image.source=modelData.OffImage;
-                            speaker.isMute=true;
-                            playing=false;
+                            image.source=modelData.offImage;
+                            modelData.isMute=true;
                         }else
                         {
-                            image.source=modelData.OnImage;
-                            inst.play();
-
-                            speaker.play();
-                            speaker.isMute=false;
-                            playing=true;
+                            image.source=modelData.onImage;
+                            modelData.isMute=false;
                         }
                     }
                 }
@@ -57,18 +36,7 @@ Rectangle {
                 {
                     id:image
                  anchors.fill:parent
-                 source: modelData.OffImage
-                }
-                Speaker
-                {
-                    id:speaker
-                    source:modelData.Vocal
-                    position: inst.position+10
-                    isPlaying: inst.isPlaying
-                }
-                Text {
-                    id: a
-                    text: speaker.position-inst.position
+                 source: modelData.offImage
                 }
         }
 
@@ -80,25 +48,36 @@ Rectangle {
             y: 32
             width: 608
             height: 17
-            value: inst.position
-            maximumValue: inst.duration
-
-            Text {
-                id: text2
-                x: 73
-                y: 17
-                text: sliderHorizontal1.maximumValue
-                font.pixelSize: 12
+            maximumValue: Data.SelectedMusic.duration
+            minimumValue: 0
+            value: Data.SelectedMusic.position
+            onValueChanged:
+            {
+                Data.SelectedMusic.position = value;
             }
         }
 
-        Text {
+        TextInput {
             id: text1
-            x: 0
-            y: 55
-            text: sliderHorizontal1.value
+            x: 135
+            y: 482
+            width: 15
+            height: 12
+            text: Data.SelectedMusic.position
             font.pixelSize: 12
         }
+
+        Button {
+            id: button1
+            x: 75
+            y: 8
+            text: qsTr("Play")
+            onClicked:
+            {
+                Data.SelectedMusic.play();
+            }
+        }
+
     }
 
 }

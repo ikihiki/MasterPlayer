@@ -11,19 +11,18 @@ class MusicDatas : public QObject
 {
     Q_OBJECT
 
-    Q_PROPERTY(QVariantList Musics READ Musics WRITE setMusics NOTIFY MusicsChanged)
-    Q_PROPERTY(QVariant SelectedMusic READ SelectedMusic WRITE setSelectedMusic NOTIFY SelectedMusicChanged)
+    Q_PROPERTY(QQmlListProperty<MusicData> Musics READ Musics NOTIFY MusicsChanged)
+    Q_PROPERTY(MusicData* SelectedMusic READ SelectedMusic WRITE setSelectedMusic NOTIFY SelectedMusicChanged)
 
 
 public:
     explicit MusicDatas(QObject *parent = 0);
     explicit MusicDatas(const QUrl &path, QObject *parent = 0);
 
-    QVariantList Musics() const;
-    void setMusics(const QVariantList &musics);
+    QQmlListProperty<MusicData> Musics();
 
-    QVariant SelectedMusic() const;
-    void setSelectedMusic(const QVariant &data);
+    MusicData* SelectedMusic() const;
+    void setSelectedMusic(MusicData *data);
 
     ~MusicDatas();
 
@@ -33,8 +32,8 @@ signals:
 public slots:
 
 private:
-    QVariantList m_musics;
-    QVariant m_selectedMusic;
+    QList<MusicData*> m_musics;
+    MusicData *m_selectedMusic;
     Audio3D *audio;
 };
 #endif // MUSICDATAS_H

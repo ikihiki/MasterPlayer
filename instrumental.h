@@ -4,6 +4,8 @@
 #include <QObject>
 #include <QUrl>
 
+#include "speaker.h"
+
 class Instrumental : public QObject
 {
     Q_OBJECT
@@ -38,6 +40,8 @@ public:
 	bool isMute() const;
 	void setIsMute(const bool ismute);
 
+	Speaker* getSpeaker() const;
+
 ~Instrumental();
 
 signals:
@@ -49,5 +53,12 @@ signals:
     void isMuteChanged();
 
 
+private:
+
+	Speaker* m_speaker;
+
 };
+
+Q_DECLARE_METATYPE(Instrumental*)
+
 #endif //INSTRUMENTAL_H

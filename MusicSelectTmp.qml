@@ -31,7 +31,7 @@ Rectangle {
             Audio
             {
                 id:audio
-                source:modelData.Instrumental
+                source:modelData.instrumental.instrumental
             }
 
             Column {

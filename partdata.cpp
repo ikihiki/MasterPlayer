@@ -2,23 +2,23 @@
 
 PartData::PartData(QObject *parent) : QObject(parent)
 {
-	speaker = new Speaker(this);
+	m_speaker = new Speaker(this);
 }
 
 PartData::PartData(const QString &path,QObject *parent):QObject(parent)
 {
-	speaker = new Speaker(this);
+	m_speaker = new Speaker(this);
     m_dir=new QDir(path);
-    setName(m_dir->dirName());
+    m_name = m_dir->dirName();
     QStringList offList;
     offList<<"*off*";
-    setOffImage(QUrl::fromLocalFile(m_dir->entryInfoList(offList,QDir::Files).first().filePath()));
+    m_offImage = QUrl::fromLocalFile(m_dir->entryInfoList(offList,QDir::Files).first().filePath());
     QStringList onList;
     onList<<"*on*";
-    setOnImage(QUrl::fromLocalFile(m_dir->entryInfoList(onList,QDir::Files).first().filePath()));
+    m_onImsge = QUrl::fromLocalFile(m_dir->entryInfoList(onList,QDir::Files).first().filePath());
     QStringList vocalList;
     vocalList<<"*.mp3";
-    setVocal(QUrl::fromLocalFile(m_dir->entryInfoList(vocalList,QDir::Files).first().filePath()));
+    m_speaker->setSource(QUrl::fromLocalFile(m_dir->entryInfoList(vocalList,QDir::Files).first().filePath()));
     setGain(50);
 }
 
@@ -27,27 +27,10 @@ QString PartData::name() const
     return m_name;
 }
 
-void PartData::setName(const QString &name)
-{
-    if(name!=m_name)
-    {
-        m_name=name;
-        emit nameChanged();
-    }
-}
 
 QUrl PartData::offImage() const
 {
     return m_offImage;
-}
-
-void PartData::setOffImage(const QUrl &path)
-{
-    if(path!=m_offImage)
-    {
-        m_offImage=path;
-        emit offImageChanged();
-    }
 }
 
 QUrl PartData::onImage() const
@@ -55,86 +38,86 @@ QUrl PartData::onImage() const
     return m_onImsge;
 }
 
-void PartData::setOnImage(const QUrl &path)
-{
-    if(path!=m_onImsge)
-    {
-        m_onImsge=path;
-        emit onImageChanged();
-    }
-}
 
 QUrl PartData::vocal() const
 {
-    return speaker->source();
-}
-
-void PartData::setVocal(const QUrl &path)
-{
-	if (path != speaker->source())
-    {
-		speaker->setSource(path);
-        emit vocalChanged();
-    }
+    return m_speaker->source();
 }
 
 float PartData::gain() const
 {
-    return speaker->gain();
+    return m_speaker->gain();
 }
 
 void PartData::setGain(const float volume)
 {
-    if(volume!=speaker->gain())
+    if(volume!=m_speaker->gain())
     {
-		speaker->setGain(volume);
+		m_speaker->setGain(volume);
         emit gainChanged();
     }
 }
 
 float PartData::x() const
 {
-	return speaker->x();
+	return m_speaker->x();
 }
 
 void PartData::setX(const float x)
 {
-	if (x != speaker->x())
+	if (x != m_speaker->x())
 	{
-		speaker->setX(x);
+		m_speaker->setX(x);
 		emit xChanged();
 	}
 }
 
 float PartData::y() const
 {
-	return speaker->y();
+	return m_speaker->y();
 }
 
 void PartData::setY(const float y)
 {
-	if (y != speaker->y())
+	if (y != m_speaker->y())
 	{
-		speaker->setY(y);
+		m_speaker->setY(y);
 		emit yChanged();
 	}
 }
 
 float PartData::z() const
 {
-	return speaker->z();
+	return m_speaker->z();
 }
 
 void PartData::setZ(const float z)
 {
-	if (z != speaker->z())
+	if (z != m_speaker->z())
 	{
-		speaker->setZ(z);
+		m_speaker->setZ(z);
 		emit zChanged();
 	}
 }
 
+bool PartData::isMute() const
+{
+	return m_speaker->isMute();
+}
 
+void PartData::setIsMute(const bool ismute)
+{
+    if (m_speaker->isMute() != ismute)
+	{
+		m_speaker->setIsMute(ismute);
+		emit isMuteChanged();
+	}
+}
+
+Speaker* PartData::getSpeaker() const
+{
+	return m_speaker;
+}
 
 PartData::~PartData()
 {
